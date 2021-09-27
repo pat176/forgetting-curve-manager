@@ -8,7 +8,7 @@ const diffInDays = (date1, date2)=>{
   let a = moment(date1, 'YYYY/MM/DD');
   let b = moment(date2, 'YYYY/MM/DD');
   let diffDays = b.diff(a, 'days');
-  console.log(diffDays)
+  // console.log(diffDays)
   return diffDays
 }
 const getYYYYMMDD = (date) => {
@@ -29,6 +29,7 @@ const getYYYYMMDD = (date) => {
 }
 export default function Home() {
   const [state, setstate] = useState({
+    search: "",
     text: "",
     lastRev: getYYYYMMDD(d.toLocaleDateString()),
     timesRev: 0,
@@ -44,16 +45,16 @@ export default function Home() {
         recordArr: JSON.parse(localStorage.getItem("records"))
       })
     } else  {
-      console.log("here")
+      // console.log("here")
       localStorage.setItem("records", JSON.stringify([]))
     }
   }, [])
   useEffect(() => {
-    console.log(state.recordArr)
+    // console.log(state.recordArr)
     if (state.recordArr !== undefined){
 
       if (state.recordArr.length !== 0) {
-        console.log("object")
+        // console.log("object")
         localStorage.setItem("records", JSON.stringify(state.recordArr))
       }
     }
@@ -63,8 +64,8 @@ export default function Home() {
     arr[index].timesRev=Number(arr[index].timesRev)+1
     arr[index].lastRev=getYYYYMMDD(d.toLocaleDateString())
     setstate({ ...state, recordArr: arr })
-    console.log("here")
-    console.log(state.recordArr)
+    // console.log("here")
+    // console.log(state.recordArr)
     localStorage.setItem("records", JSON.stringify(state.recordArr))
   }
   return (
@@ -76,6 +77,10 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 style={{"color": "red","textAlign":"center"}}>You Forget Almost 70% Of What You Newly Learnt In Just One Day...!!</h1>
+        <input type="text" id="search" value={state.search} placeholder="Search" onChange={() => setstate({
+          ...state,
+          search: event.target.value,
+        })} />
         {state.open ? (
           <div className={styles.title}>
             <form>
@@ -96,7 +101,7 @@ export default function Home() {
               })} />
 
               <button className={styles.btn} onClick={() => {
-                console.log(state)
+                // console.log(state)
                 setstate({
                   ...state,
                   recordArr: [...state.recordArr, {
@@ -130,15 +135,27 @@ export default function Home() {
                 < 
                 (Math.exp(-(diffInDays(b.lastRev, getYYYYMMDD(d.toLocaleDateString())) / b.timesRev)) * 100)) ? -1 : 0))
                 .map((item, index)=>{
-                  return (
-                    <Card title={item.text} retention={
-                      (Math.exp(-(
-                        diffInDays(
-                        item.lastRev, getYYYYMMDD(d.toLocaleDateString()))/item.timesRev))*100).toString()+"%"
-                      } 
-                      lastRev={item.lastRev} timesRev={item.timesRev} btn={styles.btn} key={index+"hahh"} addRev={()=>set(index)}></Card>
-                  )
-            })}
+                  if (state.search !== "" && item.text.toLowerCase().indexOf(state.search.toLowerCase()) > -1) {
+
+                    return (
+                      <Card title={item.text} retention={
+                        (Math.exp(-(
+                          diffInDays(
+                            item.lastRev, getYYYYMMDD(d.toLocaleDateString()))/item.timesRev))*100).toString()+"%"
+                          } 
+                          lastRev={item.lastRev} timesRev={item.timesRev} btn={styles.btn} key={index+"hahh"} addRev={()=>set(index)}></Card>
+                    )
+                  } else if (state.search===""){
+                    return (
+                      <Card title={item.text} retention={
+                        (Math.exp(-(
+                          diffInDays(
+                            item.lastRev, getYYYYMMDD(d.toLocaleDateString())) / item.timesRev)) * 100).toString() + "%"
+                        }
+                        lastRev={item.lastRev} timesRev={item.timesRev} btn={styles.btn} key={index + "hahh"} addRev={() => set(index)}></Card>
+                    )
+                  }
+                })}
           </>
         )}
 
