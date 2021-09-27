@@ -75,7 +75,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 style={{"color": "red","textAlign":"center"}}>Revising 4 Times Makes You Remember Everything For Atleast 9 Days...!!</h1>
+        <h1 style={{"color": "red","textAlign":"center"}}>You Forget Almost 70% Of Something You Newly Learnt Last Day...!!</h1>
         {state.open ? (
           <div className={styles.title}>
             <form>
