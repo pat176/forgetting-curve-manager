@@ -36,14 +36,15 @@ export default function Home() {
     recordArr: [],
   });
   useEffect(() => {
-    if (localStorage.getItem("records") !== undefined) {
+    if (localStorage.getItem("records")) {
 
       diffInDays("2020/11/11", getYYYYMMDD(d.toLocaleDateString()))
       setstate({
         ...state,
         recordArr: JSON.parse(localStorage.getItem("records"))
       })
-    } else if (localStorage.getItem("records") === undefined) {
+    } else  {
+      console.log("here")
       localStorage.setItem("records", JSON.stringify([]))
     }
   }, [])
