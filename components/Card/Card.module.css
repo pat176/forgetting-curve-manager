@@ -6,8 +6,9 @@
   margin: 10px auto;
   padding: 10px;
 }
-.cont h2 {
-  color: black;
+.yes {
+  background-color: blue;
+  color: white;
 }
 .red {
   color: red;

@@ -4,11 +4,23 @@ import Card from '../components/Card/Card'
 import styles from '../styles/Home.module.css'
 import moment from "moment"
 const d = new Date();
+const find = (arr, el) => {
+  let out = -1
+  for (let index = 0; index < arr.length; index++) {
+    const element = arr[index];
+    if (JSON.stringify(element) === JSON.stringify(el)) {
+      out=index
+      break
+    } 
+  }
+  // //console.log(el," still here")
+  return out
+}
 const diffInDays = (date1, date2)=>{
   let a = moment(date1, 'YYYY/MM/DD');
   let b = moment(date2, 'YYYY/MM/DD');
   let diffDays = b.diff(a, 'days');
-  // console.log(diffDays)
+  //console.log(diffDays)
   return diffDays
 }
 const getYYYYMMDD = (date) => {
@@ -35,38 +47,65 @@ export default function Home() {
     timesRev: 0,
     open: false,
     recordArr: [],
+    syllabus: []
   });
   useEffect(() => {
     if (localStorage.getItem("records")) {
 
-      diffInDays("2020/11/11", getYYYYMMDD(d.toLocaleDateString()))
-      setstate({
-        ...state,
-        recordArr: JSON.parse(localStorage.getItem("records"))
-      })
+      // diffInDays("2020/11/11", getYYYYMMDD(d.toLocaleDateString()))
+      setstate((prevstate)=>{
+        if (localStorage.getItem("syllabus")) {
+
+          return ({
+            ...state,
+            syllabus: JSON.parse(localStorage.getItem("syllabus")),
+            recordArr: JSON.parse(localStorage.getItem("records"))
+          })
+        } else {
+          localStorage.setItem("syllabus", JSON.stringify([]))
+          return ({
+            ...state,
+            recordArr: JSON.parse(localStorage.getItem("records"))
+          })
+        }
+        }
+      )
     } else  {
-      // console.log("here")
+      //console.log("here")
       localStorage.setItem("records", JSON.stringify([]))
     }
   }, [])
   useEffect(() => {
-    // console.log(state.recordArr)
+    //console.log(state.recordArr)
     if (state.recordArr !== undefined){
 
       if (state.recordArr.length !== 0) {
-        // console.log("object")
+        //console.log("object")
         localStorage.setItem("records", JSON.stringify(state.recordArr))
       }
     }
   }, [state.recordArr])
+  const setSyll = (syll) => {
+    localStorage.setItem("syllabus", JSON.stringify(syll))
+  }
   const set= (index)=> {
     const arr = state.recordArr
     arr[index].timesRev=Number(arr[index].timesRev)+1
     arr[index].lastRev=getYYYYMMDD(d.toLocaleDateString())
     setstate({ ...state, recordArr: arr })
-    // console.log("here")
-    // console.log(state.recordArr)
+    //console.log("here")
+    //console.log(state.recordArr)
     localStorage.setItem("records", JSON.stringify(state.recordArr))
+  }
+  const expectedMarks = syllabus => {
+    // //console.log(syllabus)
+    let sum = 0
+    syllabus.map(item => {
+      sum += (Math.exp(-(
+        diffInDays(
+          item.lastRev, getYYYYMMDD(d.toLocaleDateString())) / item.timesRev)))
+    })
+    return (sum/syllabus.length)*300
   }
   return (
     <div className={styles.container}>
@@ -76,6 +115,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        <h1>Expected Marks Acc To Syllabus = {expectedMarks(state.syllabus)}</h1>
         <h1 style={{"color": "red","textAlign":"center"}}>You Forget Almost 70% Of What You Newly Learnt In Just One Day...!!</h1>
         <input type="text" id="search" value={state.search} placeholder="Search" onChange={() => setstate({
           ...state,
@@ -101,7 +141,7 @@ export default function Home() {
               })} />
 
               <button className={styles.btn} onClick={() => {
-                // console.log(state)
+                //console.log(state)
                 setstate({
                   ...state,
                   recordArr: [...state.recordArr, {
@@ -135,10 +175,29 @@ export default function Home() {
                 < 
                 (Math.exp(-(diffInDays(b.lastRev, getYYYYMMDD(d.toLocaleDateString())) / b.timesRev)) * 100)) ? -1 : 0))
                 .map((item, index)=>{
+                  // //console.log(state.syllabus, find(state.syllabus,item), item)
                   if (state.search !== "" && item.text.toLowerCase().indexOf(state.search.toLowerCase()) > -1) {
-
                     return (
-                      <Card title={item.text} retention={
+                      <Card id={"card" + index} inIt={find(state.syllabus, item) !== -1} title={item.text} onClick={(e)=>{
+                        if (find(state.syllabus, item)===-1){
+                          setSyll([...state.syllabus, item])
+                          setstate({
+                            ...state,
+                            syllabus:[...state.syllabus, item]
+                          })
+                          document.getElementById("card"+ index).style.backgroundColor="blue"
+                          document.getElementById("card"+ index).style.color="white"
+                        } else {
+                          let arr = [...state.syllabus]
+                          let ind = find(arr,item)
+                          arr.splice(ind, 1)
+                          // //console.log(arr)
+                          setSyll([...arr])
+                          setstate({ ...state, syllabus: [...arr] })
+                          document.getElementById("card"+ index).style.backgroundColor="white"
+                          document.getElementById("card"+ index).style.color="black"
+                        }
+                      }} retention={
                         (Math.exp(-(
                           diffInDays(
                             item.lastRev, getYYYYMMDD(d.toLocaleDateString()))/item.timesRev))*100).toString()+"%"
@@ -147,7 +206,30 @@ export default function Home() {
                     )
                   } else if (state.search===""){
                     return (
-                      <Card title={item.text} retention={
+                      <Card id={"card" + index} inIt={find(state.syllabus, item) !== -1} title={item.text} onClick={(e) => {
+                        if (find(state.syllabus, item)===-1) {
+                          // //console.log("hehhehehehehe")
+                          setSyll([...state.syllabus, item])
+                          setstate({
+                            ...state,
+                            syllabus: [...state.syllabus, item]
+                          })
+                          document.getElementById("card" + index).style.backgroundColor = "blue"
+                          document.getElementById("card" + index).style.color = "white"
+                        } else {
+                          // //console.log("hereeeee")
+                          let arr = [...state.syllabus]
+                          let ind = find(arr,item)
+                          console.log(item)
+                          console.log(ind)
+                          arr.splice(ind, 1)
+                          console.log(arr)
+                          setSyll([...arr])
+                          setstate({ ...state, syllabus: [...arr] })
+                          document.getElementById("card" + index).style.backgroundColor = "white"
+                          document.getElementById("card" + index).style.color = "black"
+                        }
+                      }} retention={
                         (Math.exp(-(
                           diffInDays(
                             item.lastRev, getYYYYMMDD(d.toLocaleDateString())) / item.timesRev)) * 100).toString() + "%"
