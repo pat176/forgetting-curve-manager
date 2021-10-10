@@ -14,3 +14,21 @@
   color: red;
   font-weight: bold;
 }
+.check {
+  margin: 10px 0;
+  text-align: center;
+}
+.check span {
+  cursor: pointer;
+  margin: 5px;
+  padding: 5px;
+  background-color: white;
+  color: blue;
+  font-weight: bold;
+}
+.notes {
+  border: 5px solid black;
+}
+.dpp {
+  outline: 5px solid black;
+}
