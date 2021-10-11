@@ -18,7 +18,7 @@ const Card = (props) => {
   return (
     <div id={props.id} className={styles.cont + " " + (props.inIt ? styles.yes : "")} onClick={(event) => {
       //console.log(event.target.id)
-      if (find([props.id, "btn " + props.id, "span1 " + props.id, "span2 " + props.id], event.target.id) === -1) props.onClick(event)
+      if (find(["btn " + props.id, "span1 " + props.id, "span2 " + props.id], event.target.id) === -1) props.onClick(event)
     }}>
       <h2>{props.title}</h2>
       <span>Current Retention = <span className={styles.red}>{props.retention}</span> </span>
