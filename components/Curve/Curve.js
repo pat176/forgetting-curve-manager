@@ -4,7 +4,7 @@ import styles from "./Curve.module.css"
 const Curve = () => {
   useEffect(() => {
     let elt = document.getElementById("curve");
-    //console.log(elt)
+    ////console.log(elt)
     if (elt) {
       let calculator = Desmos.GraphingCalculator(elt);
       calculator.setExpression({ id: 'graph1', latex: 'y=e^{-x/10}', lockViewport: "true" });
@@ -14,9 +14,9 @@ const Curve = () => {
         bottom: 0,
         top: 1
       });
-      //console.log("here")
-      //console.log(elt)
-      //console.log(Desmos)
+      ////console.log("here")
+      ////console.log(elt)
+      ////console.log(Desmos)
     }
   }, [])
   return (
