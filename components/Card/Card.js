@@ -57,7 +57,7 @@ const Card = (props) => {
 
       {props.index === props.ind ? (
         <>
-          Today's Minimum Target Till Here
+          Today&apos;s Minimum Target Till Here
           <hr />
         </>
       ) : ""}
