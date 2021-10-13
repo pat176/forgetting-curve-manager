@@ -91,6 +91,7 @@ export default function Home() {
       if (state.recordArr.length !== 0) {
         ////console.log("object")
         localStorage.setItem("records", JSON.stringify(state.recordArr))
+        localStorage.setItem("ind", JSON.stringify(target(state.target)))
         setstate({...state, ind: target(state.target)})
       }
     }
