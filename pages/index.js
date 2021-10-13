@@ -108,7 +108,6 @@ export default function Home() {
         <
         (Math.exp(-(diffInDays(b.lastRev, getYYYYMMDD(d.toLocaleDateString())) / b.timesRev)) * 100)) ? -1 : 0))
       .map((el, ind) => {
-        document.getElementById("card" + ind).style.background = "blue"
         // console.log((Math.exp(-(
           // diffInDays(
           //   el.lastRev, getYYYYMMDD(d.toLocaleDateString())) / el.timesRev))))
