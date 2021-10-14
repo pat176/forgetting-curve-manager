@@ -13,7 +13,6 @@ const find = (arr, el) => {
       break
     }
   }
-  // ////console.log(el," still here")
   return out
 }
 const diffInDays = (date1, date2) => {
@@ -114,11 +113,15 @@ export default function Home() {
         // console.log(tmp, parseInt(targ), 100-(Math.exp(-(
           // diffInDays(
           //   el.lastRev, getYYYYMMDD(d.toLocaleDateString())) / el.timesRev))))
-        tmp += (1 - (Math.exp(-(
-          diffInDays(
-            el.lastRev, getYYYYMMDD(d.toLocaleDateString())) / el.timesRev)))) / (state.syllabus.length)
+        if (find(state.syllabus, el) !== -1) {
+          tmp += (1 - (Math.exp(-(
+            diffInDays(
+              el.lastRev, getYYYYMMDD(d.toLocaleDateString())) / el.timesRev)))) / (state.syllabus.length)
+        }
         // console.log(tmp*300,targ)
+        // console.log(tmp)
         if (Math.round(tmp*300) >= parseInt(targ) && find(state.syllabus, el) !== -1 && index === null) {
+          // console.log(tmp,tmp*300, Math.round(tmp*300))
           // console.log(tmp*300, targ)
           // console.log(document.getElementById("card" + ind))
           localStorage.setItem("ind",ind)
