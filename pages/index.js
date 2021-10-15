@@ -91,7 +91,7 @@ export default function Home() {
         ////console.log("object")
         localStorage.setItem("records", JSON.stringify(state.recordArr))
         localStorage.setItem("ind", JSON.stringify(target(state.target)))
-        setstate({...state, ind: target(state.target)})
+        setstate({ ...state, ind: target(state.target) })
       }
     }
   }, [state.recordArr])
@@ -108,11 +108,11 @@ export default function Home() {
         (Math.exp(-(diffInDays(b.lastRev, getYYYYMMDD(d.toLocaleDateString())) / b.timesRev)) * 100)) ? -1 : 0))
       .map((el, ind) => {
         // console.log((Math.exp(-(
-          // diffInDays(
-          //   el.lastRev, getYYYYMMDD(d.toLocaleDateString())) / el.timesRev))))
+        // diffInDays(
+        //   el.lastRev, getYYYYMMDD(d.toLocaleDateString())) / el.timesRev))))
         // console.log(tmp, parseInt(targ), 100-(Math.exp(-(
-          // diffInDays(
-          //   el.lastRev, getYYYYMMDD(d.toLocaleDateString())) / el.timesRev))))
+        // diffInDays(
+        //   el.lastRev, getYYYYMMDD(d.toLocaleDateString())) / el.timesRev))))
         if (find(state.syllabus, el) !== -1) {
           tmp += (1 - (Math.exp(-(
             diffInDays(
@@ -120,18 +120,18 @@ export default function Home() {
         }
         // console.log(tmp*300,targ)
         // console.log(tmp)
-        if (Math.round(tmp*300) >= parseInt(targ) && find(state.syllabus, el) !== -1 && index === null) {
+        if (Math.round(tmp * 300) >= parseInt(targ) && find(state.syllabus, el) !== -1 && index === null) {
           // console.log(tmp,tmp*300, Math.round(tmp*300))
           // console.log(tmp*300, targ)
           // console.log(document.getElementById("card" + ind))
-          localStorage.setItem("ind",ind)
+          localStorage.setItem("ind", ind)
           // console.log(ind)
-          index=ind
+          index = ind
           // document.getElementById("card" + ind).style.outlineWidth = "5px"
           // document.getElementById("card" + ind).style.marginBottom = "5px"
         }
       })
-      return index
+    return index
   }
   const setSyll = (syll) => {
     localStorage.setItem("syllabus", JSON.stringify(syll))
@@ -170,6 +170,8 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1>Expected Marks Acc To Syllabus = {expectedMarks(state.syllabus) * 300}</h1>
+        <h1 style={{color: "red", fontSize: "3em", fontWeight: "bolder"}}>Expected Rank = {
+        expectedMarks(state.syllabus) * 360 >= 310 ? "1-10" : (expectedMarks(state.syllabus) * 360 >= 285 ? "10-40" : (expectedMarks(state.syllabus) * 360 >= 239 ? "40-90" : (expectedMarks(state.syllabus) * 360 >= 250 ? "90-300" : (expectedMarks(state.syllabus) * 360 >= 223 ? "300-500" : "500+"))))}</h1>
         <h1 style={{ "color": "red", "textAlign": "center" }}>You Forget Almost 70% Of What You Newly Learnt In Just One Day...!!</h1>
         <input type="text" id="search" value={state.search} placeholder="Search" onChange={() => setstate({
           ...state,
