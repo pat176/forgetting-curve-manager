@@ -120,7 +120,7 @@ export default function Home() {
         }
         // console.log(tmp*300,targ)
         // console.log(tmp)
-        if (Math.round(tmp * 300) >= parseInt(targ) && find(state.syllabus, el) !== -1 && index === null) {
+        if (Math.round(tmp * 360) >= parseInt(targ) && find(state.syllabus, el) !== -1 && index === null) {
           // console.log(tmp,tmp*300, Math.round(tmp*300))
           // console.log(tmp*300, targ)
           // console.log(document.getElementById("card" + ind))
@@ -169,7 +169,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1>Expected Marks Acc To Syllabus = {expectedMarks(state.syllabus) * 300}</h1>
+        <h1>Expected Marks Acc To Syllabus = {expectedMarks(state.syllabus) * 360}/360</h1>
         <h1 style={{color: "red", fontSize: "3em", fontWeight: "bolder"}}>Expected Rank = {
         expectedMarks(state.syllabus) * 360 >= 310 ? "1-10" : (expectedMarks(state.syllabus) * 360 >= 285 ? "10-40" : (expectedMarks(state.syllabus) * 360 >= 239 ? "40-90" : (expectedMarks(state.syllabus) * 360 >= 250 ? "90-300" : (expectedMarks(state.syllabus) * 360 >= 223 ? "300-500" : "500+"))))}</h1>
         <h1 style={{ "color": "red", "textAlign": "center" }}>You Forget Almost 70% Of What You Newly Learnt In Just One Day...!!</h1>
