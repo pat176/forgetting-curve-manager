@@ -182,6 +182,7 @@ export default function Home() {
       if (find(state.syllabus, element)===-1) tmp2=[...tmp2, element]
     }
     tmp2=sort(tmp2)
+    setstate({...state, recordArr:[...tmp, ...tmp2]})
     return [...tmp, ...tmp2]
   }
   return (
