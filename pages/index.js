@@ -48,7 +48,8 @@ export default function Home() {
     recordArr: [],
     syllabus: [],
     target: 0,
-    ind: 0
+    ind: 0,
+    showSyll: false
   });
   useEffect(() => {
     if (localStorage.getItem("ind") && localStorage.getItem("target")) {
@@ -95,11 +96,14 @@ export default function Home() {
       }
     }
   }, [state.recordArr])
-  const target = (targ) => {
+  const target = (targ, check) => {
     let index = null
     localStorage.setItem("target", targ)
-    let tmp = expectedMarks(state.syllabus)
-    state.recordArr.sort((a, b) => (
+    let tmp = expectedMarks(state.syllabus);
+      (() => {
+        if (check) return state.syllabus
+        else return state.recordArr
+      })().sort((a, b) => (
       (Math.exp(-(diffInDays(a.lastRev, getYYYYMMDD(d.toLocaleDateString())) / a.timesRev)) * 100)
       >
       (Math.exp(-(diffInDays(b.lastRev, getYYYYMMDD(d.toLocaleDateString())) / b.timesRev)) * 100)) ? 1
@@ -182,7 +186,7 @@ export default function Home() {
           setstate({
             ...state,
             target: event.target.value,
-            ind: target(event.target.value)
+            ind: target(event.target.value, state.showSyll)
           })
         }} />
         {/* {console.log(state.ind, "\n\n\n\n\n")} */}
@@ -232,7 +236,15 @@ export default function Home() {
               ...state,
               open: true,
             })}>Add</button>
-            {state.recordArr.sort((a, b) => (
+            <button className={styles.btn + " " + (state.showSyll ? styles.blue : "")} onClick={() => setstate({
+              ...state,
+              showSyll: !state.showSyll,
+              ind: target(state.target, !state.showSyll)
+            })}>Show Syllabus</button>
+            {(() => {
+              if (state.showSyll) return state.syllabus
+              else return state.recordArr
+            })().sort((a, b) => (
               (Math.exp(-(diffInDays(a.lastRev, getYYYYMMDD(d.toLocaleDateString())) / a.timesRev)) * 100)
               >
               (Math.exp(-(diffInDays(b.lastRev, getYYYYMMDD(d.toLocaleDateString())) / b.timesRev)) * 100)) ? 1
