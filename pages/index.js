@@ -161,6 +161,29 @@ export default function Home() {
     })
     return (sum / syllabus.length)
   }
+  const sort = (arr) => {
+    let tmp = arr
+    tmp.sort((a,b)=>(
+      (Math.exp(-(diffInDays(a.lastRev, getYYYYMMDD(d.toLocaleDateString())) / a.timesRev)) * 100)
+      >
+      (Math.exp(-(diffInDays(b.lastRev, getYYYYMMDD(d.toLocaleDateString())) / b.timesRev)) * 100)) ? 1
+      : (((Math.exp(-(diffInDays(a.lastRev, getYYYYMMDD(d.toLocaleDateString())) / a.timesRev)) * 100)
+        <
+        (Math.exp(-(diffInDays(b.lastRev, getYYYYMMDD(d.toLocaleDateString())) / b.timesRev)) * 100)) ? -1 : 0)
+    )
+    return tmp
+  }
+  const arrSort = (arr) => {
+    let tmp = []
+    tmp=sort(state.syllabus)
+    let tmp2 = []
+    for (let index = 0; index < arr.length; index++) {
+      const element = arr[index];
+      if (find(state.syllabus, element)===-1) tmp2=[...tmp2, element]
+    }
+    tmp2=sort(tmp2)
+    return [...tmp, ...tmp2]
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -232,14 +255,7 @@ export default function Home() {
               ...state,
               open: true,
             })}>Add</button>
-            {state.recordArr.sort((a, b) => (
-              (Math.exp(-(diffInDays(a.lastRev, getYYYYMMDD(d.toLocaleDateString())) / a.timesRev)) * 100)
-              >
-              (Math.exp(-(diffInDays(b.lastRev, getYYYYMMDD(d.toLocaleDateString())) / b.timesRev)) * 100)) ? 1
-              : (((Math.exp(-(diffInDays(a.lastRev, getYYYYMMDD(d.toLocaleDateString())) / a.timesRev)) * 100)
-                <
-                (Math.exp(-(diffInDays(b.lastRev, getYYYYMMDD(d.toLocaleDateString())) / b.timesRev)) * 100)) ? -1 : 0))
-              .map((item, index) => {
+            {arrSort(state.recordArr).map((item, index) => {
                 // ////console.log(state.syllabus, find(state.syllabus,item), item)
                 if (state.search !== "" && item.text.toLowerCase().indexOf(state.search.toLowerCase()) > -1) {
                   return (

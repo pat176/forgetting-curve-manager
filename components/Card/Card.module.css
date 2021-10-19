@@ -8,8 +8,8 @@
   padding: 10px;
 }
 .yes {
-  background-color: blue;
-  color: white;
+  background-color: blue !important;
+  color: white !important;
 }
 .red {
   color: red;
