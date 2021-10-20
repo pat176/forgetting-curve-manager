@@ -145,8 +145,10 @@ export default function Home() {
     const syl = state.syllabus
     const sylInd = find(state.syllabus, arr[index])
     //console.log(sylInd)
-    syl[sylInd].timesRev = Number(syl[sylInd].timesRev) + 1
-    syl[sylInd].lastRev = getYYYYMMDD(d.toLocaleDateString())
+    if (sylInd !== -1) {
+      syl[sylInd].timesRev = Number(syl[sylInd].timesRev) + 1
+      syl[sylInd].lastRev = getYYYYMMDD(d.toLocaleDateString())
+    }
     arr[index].timesRev = Number(arr[index].timesRev) + 1
     arr[index].lastRev = getYYYYMMDD(d.toLocaleDateString())
     setstate({ ...state, recordArr: arr, syllabus: syl })
