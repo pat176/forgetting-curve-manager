@@ -279,7 +279,7 @@ export default function Home() {
                         diffInDays(
                           item.lastRev, getYYYYMMDD(d.toLocaleDateString())) / item.timesRev)) * 100).toString() + "%"
                     }
-                      lastRev={item.lastRev} timesRev={item.timesRev} btn={styles.btn} key={index + "hahh"} addRev={() => set(index)}></Card>
+                      lastRev={item.lastRev} timesRev={item.timesRev} btn={styles.btn} key={index + "hahh"} addRev={() => set(find(state.recordArr,item))}></Card>
                   )
                 } else if (state.search === "") {
                   return (
@@ -311,7 +311,7 @@ export default function Home() {
                         diffInDays(
                           item.lastRev, getYYYYMMDD(d.toLocaleDateString())) / item.timesRev)) * 100).toString() + "%"
                     }
-                      lastRev={item.lastRev} timesRev={item.timesRev} btn={styles.btn} key={index + "hahh"} addRev={() => set(index)}></Card>
+                      lastRev={item.lastRev} timesRev={item.timesRev} btn={styles.btn} key={index + "hahh"} addRev={() => set(find(state.recordArr,item))}></Card>
                   )
                 }
               })}
