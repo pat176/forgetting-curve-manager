@@ -175,12 +175,15 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <div className={styles.stats} style={{ display: "flex", justifyContent: "space-around" }}>
+        <h1 style={{background:"black", color:"red", margin:"0px",paddingTop:"5px"}}>Stats</h1>
+        <div className={styles.stats} style={{ display: "flex", justifyContent: "space-evenly", background:"black", color:"white", padding: "20px", margin:"0px" }}>
           <div style={{
             fontSize: "20px",
-            color: "black",
+            color: "white",
             textAlign: "center",
           }}>
+            <div style={{display:"flex",justifyContent:"space-evenly"}}>
+
             <div style={{ padding: "10px", position: "relative" }}>
               <svg style={{
                 width: "200px",
@@ -211,18 +214,56 @@ export default function Home() {
                 left: "50%",
                 top: "50%",
                 transform: "translate(-50%,-50%)",
-                color: "red",
+                color: "white",
                 fontSize: "20px",
                 fontWeight: "bolder"
               }}>
-                {Math.round(expectedMarks(state.syllabus) * 360)}<br /> <span style={{ color: "black" }}>/ <br />360</span>
+                {Math.round(expectedMarks(state.syllabus) * 360)}<br /> <span style={{ color: "white" }}>/ <br />360</span>
               </span>
             </div>
+            <div style={{ padding: "10px", position: "relative" }}>
+              <svg style={{
+                width: "200px",
+                height: "200px",
+                transform: "rotate(-90deg)",
+                overflow: "initial"
+              }}>
+                <circle cx="100" cy="100" r="95" style={{
+                  stroke: "#fff",
+                  strokeWidth: "20px",
+                  fill: "none"
+                }} />
+                <circle cx="100" cy="100" r="95" style={{
+                  stroke: "#f00",
+                  position: "relative",
+                  zIndex: "1",
+                  strokeWidth: "20px",
+                  fill: "none",
+                  strokeDashoffset: "calc(100 * 6)",
+                  strokeDasharray: "calc(100 * 6)",
+                  strokeDashoffset: `calc((100 * 6) - ((100 * 6) * ${expectedMarks(state.syllabus)}))`,
+                  strokePosition: "inside",
+                  transition: "2s all ease-in-out"
+                }} />
+              </svg>
+              <span style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%,-50%)",
+                color: "white",
+                fontSize: "30px",
+                fontWeight: "bolder"
+              }}>
+                {Math.round(expectedMarks(state.syllabus)*100)}%
+              </span>
+            </div>
+          </div>
             <strong>Expected Marks Acc To Syllabus</strong>
           </div>
           <div style={{
             fontSize: "20px",
-            color: "black",
+            color: "white",
             textAlign: "center",
           }}>
             <div style={{ padding: "10px", position: "relative" }}>
@@ -254,8 +295,8 @@ export default function Home() {
                 left: "50%",
                 top: "50%",
                 transform: "translate(-50%,-50%)",
-                color: "red",
-                fontSize: "20px",
+                color: "white",
+                fontSize: "30px",
                 fontWeight: "bolder"
               }}>
                 {
